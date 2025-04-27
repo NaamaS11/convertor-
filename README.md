@@ -6,15 +6,17 @@ Build the Docker image:
 docker build -t convertor-app .
 
 Run Instructions
-Run the container (pass a path to an image file or a folder):
-docker run --rm convertor-app [path_to_file_or_folder]
+Run the container with volume mounts for images and output folders, and with the PDF_NAME environment variable:
+docker run --rm -v /home/naamas/convertor-/images:/app/images -v /home/naamas/convertor-/output:/app/output -e PDF_NAME="my_custom_pdf" convertor-app python convert_image_to_pdf.py /app/images
 
 Example:
-docker run --rm convertor-app images/
+docker run --rm -v /home/naamas/convertor-/images:/app/images -v /home/naamas/convertor-/output:/app/output -e PDF_NAME="my_custom_pdf" convertor-app python convert_image_to_pdf.py /app/images
+
 
 Notes
-The application expects a command-line argument: a path to an image or a folder.
-The resulting PDF file is saved in the output/ folder.
-Ensure that the images exist inside the container (using COPY during build or mounting a volume if needed).
+Images must have .JPG extension (uppercase).
+Output PDF will be saved in the output/ folder.
+PDF file name can be customized using the PDF_NAME environment variable.
+Ensure that volumes are mounted correctly when running the container.
 
 
